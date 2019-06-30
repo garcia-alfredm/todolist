@@ -2,39 +2,40 @@
 #define TODOLISTAPP_H
 
 #include <iostream>
-#include "ToDoListDriver.h"
+#include "TaskList.h"
 
-// ToDoList Application Class - This class will handle the commands entered from the
-// user. It is initialized with an input/output stream, which is by default cout/cin. 
-
-// Any functions implemented should make use of out/in instead of cout/cin directly.
+/* ToDoList Application Class - This class will handle the commands entered from the
+ * user. It is initialized with an input/output stream, which is by default cout/cin. 
+ * Any functions implemented should make use of out/in instead of cout/cin directly.
+ */
 class ToDoListApp {
-public:
-	void run();
+  public:
+    void run();
 	
 	ToDoListApp(std::istream& in = std::cin, 
-				std::ostream& out = std::cout) : 
-				in(in), out(out) {}
-protected:
-	
-	enum TaskType { SHOPPING = 'S', EVENT = 'E', HOMEWORK = 'H', GENERIC = 'G' };
+				std::ostream& out = std::cout): in(in), out(out) {}
+  protected:
+    enum TaskType { SHOPPING = 'S', EVENT = 'E', HOMEWORK = 'H', GENERIC = 'G' };
 
-	// You will implement all of the following functions
 	void executeCommandPrint(bool completed = false, bool detailed = false);
 
 	void executeCommandAddTask();
 	void executeCommandRemoveTask();
+
 	void executeCommandCompleteTask();
 	
 	void executeCommandSave();
 	void executeCommandLoad();
 
-private:
-	// Remember: you may add additional member variables
+	void executeCommandHelp();
+
+  private:
 	std::istream& in = std::cin;
 	std::ostream& out = std::cout;
 	
-	ToDoListDriver my_tasks;
+    TaskList outstanding_, finished_;
+
+    void AddTask(char type, Date duedate, std::string desc, TaskMetaData metadata = TaskMetaData{} );
 };
 
 #endif 

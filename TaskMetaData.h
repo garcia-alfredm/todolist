@@ -7,10 +7,15 @@
 class TaskMetaData 
 {
   public:
+    /* Generic Constructor */
     TaskMetaData() {};
-    TaskMetaData(std::string location, std::string time); //constructor for event
-    TaskMetaData(std::string subject); //constructor for homework
-    TaskMetaData(std::vector<std::string> list); //constructor for shopping
+    /* Event Constructor */
+    TaskMetaData(std::string location, std::string time);
+    /* Homework Constructor */
+    TaskMetaData(std::string subject);
+    /* Shopping task Constructor */
+    TaskMetaData(std::vector<std::string> list);
+    
     ~TaskMetaData() {};
 
     const std::string& getLocation() { return d_location; };
