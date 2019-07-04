@@ -17,9 +17,14 @@ class ShoppingTask : public Task
     ShoppingTask(const Task* task): Task{task} {};
     ~ShoppingTask() {};
 
+    /* overload virtual functions */
     std::string getTaskType() { return "Shopping"; };
     char getTypeAbbreviation() { return 'S'; };
-
+    
+    /* Formats output for detailed information
+     * @out: ostream object target of stream insertion
+     * Precondition: @out initialized with std::cout
+     */
     virtual void outputDetailed(std::ostream& out){
         std::vector<std::string> list = data.getShoppingList();
         out << "\tItems:\n";
@@ -28,6 +33,10 @@ class ShoppingTask : public Task
         }
     };
 
+    /* Formats ouput for saving user data
+     * @out: ofstream object receiving stream insertion
+     * Precondition: @out initizialed to user supplied file destination
+     */
     virtual void output_To_File(std::ofstream& out){
         std::vector<std::string> shopping = data.getShoppingList();
         for(unsigned int i {0}; i < shopping.size(); ++i){

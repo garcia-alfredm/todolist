@@ -28,6 +28,7 @@ class Task
 
     virtual ~Task() {};
 
+    /* Member functions to be inherited by child class*/
     const Date& getDeadline() const { return due_date; };
 
     const std::string& getDescription() const { return description; };

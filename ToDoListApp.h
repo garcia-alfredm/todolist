@@ -33,6 +33,7 @@ class ToDoListApp {
 	std::istream& in = std::cin;
 	std::ostream& out = std::cout;
 	
+    /* User tasks lists */
     TaskList outstanding_, finished_;
 
     void AddTask(char type, Date duedate, std::string desc, TaskMetaData metadata = TaskMetaData{} );
