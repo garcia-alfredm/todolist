@@ -8,11 +8,15 @@
 template<typename T, typename Comparator>
 class SortedLinkedList{
   public:
+    /* Default constructor */
     SortedLinkedList(): d_size(0), d_head(nullptr) {};
+    /* Destructor */
     ~SortedLinkedList() { clear(); };
 
+    /* Return size of sorted linked list */
     inline const int& size() { return d_size; };
-
+    
+    /*Determine whether sorted linked list is empty */
     bool isEmpty(){
         if(size() ){
             return false;
@@ -21,6 +25,12 @@ class SortedLinkedList{
         }
     };
 
+    /* Insert new node to SortedLinkedList
+     * @data_: object to insert
+     * @returns boolean value to successful insertion
+     * Precondition: data_ has been initialized with appropriate values
+     * Postcondition: node has been inserted to SortedLinkedList
+     */
     bool insert(const T& data_){
         Comparator comparator;
         
@@ -61,9 +71,14 @@ class SortedLinkedList{
         }
     };
     
+    /* Obtain node at associated position
+     * @pos: int value determines position of node
+     * @returns node correspoinding to position or error code
+     * Postcondition: method retrieves associate node from list
+     */
     const T retrieve(const int& pos){
         /* if sortedlinkedlist is empty or position is greater than size */
-        if( isEmpty() || pos > size() ){
+        if( isEmpty() || pos > size() || pos <= 0 ){
             throw std::range_error("Invalid position.\n");
         }
         /* else iterate through list until node is reached */
@@ -76,12 +91,16 @@ class SortedLinkedList{
             return temp->data_; 
         }
     };
+
+    /* Remove node by position in list
+     * @pos: int value determines position of node
+     * @returns boolean value whether method was successful or not
+     * Postcondition: method removes associated node from list
+     */
     bool remove(const int& pos){
-        if(isEmpty() || pos > size() ){
+        if(isEmpty() || pos > size() || pos <= 0 ){
             return false;
         }
-        
-        //if list is size one delete and deincrement
         else if(pos == 1){
             Node<T>* delete_me = d_head;
             d_head = d_head->next_;
@@ -119,33 +138,35 @@ class SortedLinkedList{
         }
     };
     
+    /* Method deletes contents of SortedLinkedList
+     * Precondition: List must not be empty
+     * Postcondition: SortedLinkedList will be empty
+     */
     void clear(){
-        //if linked list is empty, return
         if(isEmpty() ){
             return;
         }
-        else{   
-            //is only size one, delete head node 
-            if(d_head->next_ == nullptr){
+        //node of size one
+        else if(d_head->next_ == nullptr){
                 delete d_head;
                 d_head = nullptr;
                 --d_size;
                 return;
+        }
+        else{
+            Node<T>* delete_me = d_head;
+            while(d_head != nullptr){
+                d_head = d_head->next_;
+                delete delete_me;
+                delete_me = d_head;
+                --d_size;
             }
-            else{
-                Node<T>* delete_me = d_head;
-                while(d_head != nullptr){
-                    d_head = d_head->next_;
-                    delete delete_me;
-                    delete_me = d_head;
-                    --d_size;
-                }
-                return;
-            }
+            return;
         }
     };
 
   private:
+    /* Private data members */
     int d_size;
     Node<T>* d_head;
 };

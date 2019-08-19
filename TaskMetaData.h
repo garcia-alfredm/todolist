@@ -18,10 +18,11 @@ class TaskMetaData
     
     ~TaskMetaData() {};
 
-    const std::string& getLocation() { return d_location; };
-    const std::string& getTime() { return event_time; };
-    const std::string& getSubject() { return d_subject; };
-    const std::vector<std::string>& getShoppingList() { return shopping_list; };
+    /* Getter methods */
+    inline const std::string& getLocation() { return d_location; };
+    inline const std::string& getTime() { return event_time; };
+    inline const std::string& getSubject() { return d_subject; };
+    inline const std::vector<std::string>& getShoppingList() { return shopping_list; };
     
   private:
     std::string d_location, event_time, d_subject;

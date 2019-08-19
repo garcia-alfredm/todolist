@@ -28,15 +28,16 @@ class Task
 
     virtual ~Task() {};
 
-    const Date& getDeadline() const { return due_date; };
+    /* Member functions to be inherited by child class*/
+    inline const Date& getDeadline() const { return due_date; };
 
-    const std::string& getDescription() const { return description; };
+    inline const std::string& getDescription() const { return description; };
 
     virtual std::string getTaskType() { return "Generic"; }; 
 
     virtual char getTypeAbbreviation() { return 'G'; };
 
-    const TaskMetaData& getTaskMetadata() const {return data; }; 
+    inline const TaskMetaData& getTaskMetadata() const {return data; }; 
 
     virtual void outputDetailed(std::ostream& out){};
 

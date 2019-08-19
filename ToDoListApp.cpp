@@ -8,7 +8,7 @@ using namespace std;
 void ToDoListApp::run() {
 
 	//NOTE: we are using out/in streams from the class level, not cin/cout
-	//      directly. All your functions should do this.
+	//      directly. 
 	out << "Welcome to your To-Do List! You may begin to enter commands or HELP.\n";
 
 	string command;
@@ -48,6 +48,12 @@ void ToDoListApp::run() {
     return;
 }
 
+/* Command to print user tasks lists
+ * @completed: boolean value on whether to print the oustanding_
+ * or complete_ lists
+ * @detailed: boolean value on whether to print all details of tasks
+ * Precondition: outstanding_ or compelete_ should be populated
+ */
 void ToDoListApp::executeCommandPrint(bool completed, bool detailed)
 {
 	//outstanding_ tasklist
@@ -73,7 +79,7 @@ void ToDoListApp::executeCommandPrint(bool completed, bool detailed)
 		
 		Task *temp;
 		for(int index = 1; index <= list_size; ++index){
-			//get the pointer for the outstanding or completed task list accordingly
+			//get the pointer for the task list
             if(completed){
                 temp = finished_.getTask(index);
             }
@@ -99,13 +105,19 @@ void ToDoListApp::executeCommandPrint(bool completed, bool detailed)
     return;
 }
 
+/* Adds task to outstanding_ task list
+ * Postcondition: new task is added to outstanding in order
+ * of it's due date
+ */
 void ToDoListApp::executeCommandAddTask(){
 	char type;
+	int month {0}, day {0}, year {0};
+
 	out << "What type of task is this?[G: Generic, S: Shopping, E: Event, H: Homework]" << endl;
 	in >> type;
-	type = toupper(type);
+	/* Make upper-case */
+    type = toupper(type);
 
-	int month {0}, day {0}, year {0};
 	out << "What is the deadline for this task (MM/DD/YYYY format)?" << endl;
 	/* Format date */
 	in >> setw(2) >> month;
@@ -175,38 +187,52 @@ void ToDoListApp::executeCommandAddTask(){
     return;
 }
 
+/* Removes an outstanding_ task by their number
+ * Precondition: outstanding_ task list must be populated
+ * Postcondition: outstanding_ list has a task removed
+ */
 void ToDoListApp::executeCommandRemoveTask(){
 	int input{0};
 	out << "Which task would you like to remove?\n";
 	in >> input;
-
-	/* if user input is greater than outstanding size print error */
-	if(input > outstanding_.TaskSize() || input <= 0){
-		out << "You have entered an invalid task number.\n";
-	}else{
-		outstanding_.removeTask(input);
-		out << "Task removed successfully.\n";
-	}
-    return;
+    
+    bool evaluate_method{outstanding_.removeTask(input)};
+    if (evaluate_method){
+        out << "Task removed successfully.\n";
+    }
+    else{
+        out << "You have entered an invalid task number.\n";
+    }
+    in.ignore();
+	return;
 }
 
+/* Removes task from outstanding_ to finished_
+ * Incorrect task number prints error
+ */
 void ToDoListApp::executeCommandCompleteTask(){
 	int input{0};
-	out << "Which task would you like to complete?" << endl;
+	out << "Which task has been completed? ";
 	in >> input;
 
-	if(input > outstanding_.TaskSize() ){
+	if(input > outstanding_.TaskSize() || input <= 0){
 		out << "You have entered an invalid task number. " << endl;
 	}else{
+        /* Task copy constructor initializes new task */
         Task* new_task = outstanding_.getTask(input);
         finished_.insert(new_task);
         outstanding_.removeTask(input);
 		out << "Task was marked completed." << endl;
-        in.ignore();
 	}
+    in.ignore();
     return;
 }
 
+/* Save outstanding_ list to a file
+ * Precondition: outstanding_ list must be populated
+ * Postcondition: outstanding_ list is saved to 
+ * existing or new text file
+ */
 void ToDoListApp::executeCommandSave(){
 	//if outstanding size is zero 
 	if(outstanding_.TaskSize() == 0){
@@ -237,6 +263,10 @@ void ToDoListApp::executeCommandSave(){
     return;
 }
 
+/* Load exsisting task file 
+ * Precondition: task file must exists, be in correct format
+ * Postcondition: any exsisting outstanding_ list will be erased
+ */
 void ToDoListApp::executeCommandLoad(){
 	string file_name;
 	out << "What file would you like to load outstanding tasks from?\n";
@@ -314,6 +344,8 @@ void ToDoListApp::executeCommandLoad(){
     return;
 }
 
+/* Prints details on possible commands
+ */
 void ToDoListApp::executeCommandHelp(){
 	out << "PRINT\n\tDisplay outstanding tasks in order of deadline.\n" 
 		<< "DETAILED\n\tDisplay specialized task information.\n"
@@ -327,6 +359,14 @@ void ToDoListApp::executeCommandHelp(){
     return;
 }
 
+/* Helper function to add task to outstanding_ list
+ * @type: type of task being created
+ * @duedate: Date object with task's due date
+ * @desc: string with task's description
+ * @metadata: TaskMetaData object with task's metadata
+ * Precondition: information on task must be formatted correctly
+ * Postconditon: new task added to outstanding in correct location
+ */
 void ToDoListApp::AddTask(char type, Date duedate, std::string desc, TaskMetaData metadata){
     Task* new_task;
     

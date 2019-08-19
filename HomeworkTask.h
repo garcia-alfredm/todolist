@@ -15,15 +15,26 @@ class HomeworkTask : public Task
 
     /*Copy constructor */
     HomeworkTask(const Task* task): Task{task} {}; 
+
     ~HomeworkTask() {};
 
-    std::string getTaskType() { return "Homework"; };
-    char getTypeAbbreviation() { return 'H'; };
+    /* overloaded virtual functions */
+    inline std::string getTaskType() { return "Homework"; };
+    inline char getTypeAbbreviation() { return 'H'; };
 
+    /* Formats output for detailed information
+     * @out: ostream object target of stream insertion
+     * Precondition: @out initialized with std::cout
+     */
     virtual void outputDetailed(std::ostream& out){
         out << "\tSubject: " << data.getSubject() << "\n";
     };
 
+    /* Formats ouput for saving user data
+     * @out: ofstream object receiving stream insertion
+     * Precondition: @out initizialed to user supplied
+     * file destination
+     */
     virtual void output_To_File(std::ofstream& out){
         out << "|" << data.getSubject() << "\n";
     };
