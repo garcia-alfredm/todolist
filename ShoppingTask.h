@@ -18,8 +18,8 @@ class ShoppingTask : public Task
     ~ShoppingTask() {};
 
     /* overload virtual functions */
-    std::string getTaskType() { return "Shopping"; };
-    char getTypeAbbreviation() { return 'S'; };
+    inline std::string getTaskType() { return "Shopping"; };
+    inline char getTypeAbbreviation() { return 'S'; };
     
     /* Formats output for detailed information
      * @out: ostream object target of stream insertion

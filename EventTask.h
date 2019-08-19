@@ -19,8 +19,8 @@ class EventTask : public Task{
     ~EventTask() {}; 
 
     /* overloaded virtual functions */
-    std::string getTaskType() { return "Event"; };
-    char getTypeAbbreviation() { return 'E'; };
+    inline std::string getTaskType() { return "Event"; };
+    inline char getTypeAbbreviation() { return 'E'; };
 
     /* Formats output for detailed information
      * @out: ostream object target of stream insertion

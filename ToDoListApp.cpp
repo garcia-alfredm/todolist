@@ -195,34 +195,36 @@ void ToDoListApp::executeCommandRemoveTask(){
 	int input{0};
 	out << "Which task would you like to remove?\n";
 	in >> input;
-
-	/* if user input is greater than outstanding size print error */
-	if(input > outstanding_.TaskSize() || input <= 0){
-		out << "You have entered an invalid task number.\n";
-	}else{
-		outstanding_.removeTask(input);
-		out << "Task removed successfully.\n";
-	}
-    return;
+    
+    bool evaluate_method{outstanding_.removeTask(input)};
+    if (evaluate_method){
+        out << "Task removed successfully.\n";
+    }
+    else{
+        out << "You have entered an invalid task number.\n";
+    }
+    in.ignore();
+	return;
 }
 
-/* Removes task from outstanding_ to complete_
+/* Removes task from outstanding_ to finished_
  * Incorrect task number prints error
  */
 void ToDoListApp::executeCommandCompleteTask(){
 	int input{0};
-	out << "Which task would you like to complete?" << endl;
+	out << "Which task has been completed? ";
 	in >> input;
 
-	if(input > outstanding_.TaskSize() ){
+	if(input > outstanding_.TaskSize() || input <= 0){
 		out << "You have entered an invalid task number. " << endl;
 	}else{
+        /* Task copy constructor initializes new task */
         Task* new_task = outstanding_.getTask(input);
         finished_.insert(new_task);
         outstanding_.removeTask(input);
 		out << "Task was marked completed." << endl;
-        in.ignore();
 	}
+    in.ignore();
     return;
 }
 

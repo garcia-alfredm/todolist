@@ -78,7 +78,7 @@ class SortedLinkedList{
      */
     const T retrieve(const int& pos){
         /* if sortedlinkedlist is empty or position is greater than size */
-        if( isEmpty() || pos > size() ){
+        if( isEmpty() || pos > size() || pos <= 0 ){
             throw std::range_error("Invalid position.\n");
         }
         /* else iterate through list until node is reached */
@@ -95,10 +95,10 @@ class SortedLinkedList{
     /* Remove node by position in list
      * @pos: int value determines position of node
      * @returns boolean value whether method was successful or not
-     * Postconditin: method removes associated node from list
+     * Postcondition: method removes associated node from list
      */
     bool remove(const int& pos){
-        if(isEmpty() || pos > size() ){
+        if(isEmpty() || pos > size() || pos <= 0 ){
             return false;
         }
         else if(pos == 1){
@@ -146,24 +146,22 @@ class SortedLinkedList{
         if(isEmpty() ){
             return;
         }
-        else{   
-            //is only size one, delete head node 
-            if(d_head->next_ == nullptr){
+        //node of size one
+        else if(d_head->next_ == nullptr){
                 delete d_head;
                 d_head = nullptr;
                 --d_size;
                 return;
+        }
+        else{
+            Node<T>* delete_me = d_head;
+            while(d_head != nullptr){
+                d_head = d_head->next_;
+                delete delete_me;
+                delete_me = d_head;
+                --d_size;
             }
-            else{
-                Node<T>* delete_me = d_head;
-                while(d_head != nullptr){
-                    d_head = d_head->next_;
-                    delete delete_me;
-                    delete_me = d_head;
-                    --d_size;
-                }
-                return;
-            }
+            return;
         }
     };
 

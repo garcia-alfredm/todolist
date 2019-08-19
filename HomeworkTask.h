@@ -19,8 +19,8 @@ class HomeworkTask : public Task
     ~HomeworkTask() {};
 
     /* overloaded virtual functions */
-    std::string getTaskType() { return "Homework"; };
-    char getTypeAbbreviation() { return 'H'; };
+    inline std::string getTaskType() { return "Homework"; };
+    inline char getTypeAbbreviation() { return 'H'; };
 
     /* Formats output for detailed information
      * @out: ostream object target of stream insertion
